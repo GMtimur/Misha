@@ -7,7 +7,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
   bool isHuman = false;
-  if (argc <= 1  strcmp(argv[1], "false") != 0)
+  if (argc <= 1 || strcmp(argv[1], "false") != 0)
   {
     isHuman = true;
   }
@@ -58,6 +58,6 @@ int main(int argc, char* argv[])
         }
       }
     }
-  } while ((x != 0)  (y != 0));
+  } while ((x != 0) || (y != 0));
   return 0;
 }
