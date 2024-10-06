@@ -4,20 +4,20 @@
 
 using namespace std;
 
-bool prostoe(int t) 
+bool prostoe(int t)
 {
-    if (t <= 1) return false; 
-    if (t == 2) return true;  
-    if (t % 2 == 0) return false; 
+    if (t <= 1) return false;
+    if (t == 2) return true;
+    if (t % 2 == 0) return false;
 
-    for (int i = 3; i*i <= t; i += 2) {
-        if (t% i == 0) return false; 
+    for (int i = 3; i * i <= t; i += 2) {
+        if (t % i == 0) return false;
     }
     return true;
 }
 
-bool countDegree(int t) {
-    return (t > 0) && ((t & (t- 1)) == 0);
+bool isPower2(int t) {
+    return (t > 0) && ((t & (t - 1)) == 0);
 }
 
 int main(int argc, char* argv[])
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
         isHuman = true;
     }
     int N;
-     if (isHuman)cout << "Введите количество чисел: ";
+    if (isHuman)cout << "Введите количество чисел: ";
     cin >> N;
 
     if (N <= 0) {
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     int countMultiplicity5 = 0;
     int countDegree = 0;
     int countPrevious = 0;
-    int prev1 = 0, prev2 = 0; 
+    int prev1 = 0, prev2 = 0;
     int maxk = INT_MIN, mink = INT_MAX;
 
     for (int i = 0; i < N; ++i) {
@@ -55,18 +55,18 @@ int main(int argc, char* argv[])
         if (t < mink) mink = t;
 
         if (prostoe(t)) {
-            if (isHuman) cout << t << endl; 
+             cout << t << endl;
         }
 
         if (t % 5 == 0) {
             countMultiplicity5++;
         }
 
-        if (prostoe(t)) {
+        if (isPower2(t)) {
             countDegree++;
         }
 
-        if (i >= 2 && t> (prev1 + prev2)) {
+        if (i >= 2 && t > (prev1 + prev2)) {
             countPrevious++;
         }
 
