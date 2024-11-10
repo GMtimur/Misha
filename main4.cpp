@@ -95,11 +95,6 @@ int main(int argc, char* argv[])
                 }
             }
 
-            if (M != M) {
-                if (isHuman) cout << "NO" << endl;
-                continue;
-            }
-
             int result[ROWS][COLS];
             MulMat(A1, A2, result, N, M, K);
 
@@ -118,7 +113,7 @@ int main(int argc, char* argv[])
 
         else if (command == 3) {
             if (N != M) {
-                if (isHuman) cout << "NO" << endl;
+                 cout << "NO" << endl;
                 continue;
             }
             int x;
@@ -135,4 +130,6 @@ int main(int argc, char* argv[])
         else {
             if (isHuman) cout << "ошибка " << endl;
         }
+
+        return 0;
     }}
