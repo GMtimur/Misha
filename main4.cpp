@@ -42,11 +42,16 @@ void powMat(int Mat[ROWS][COLS], int result[ROWS][COLS], int x, int N) {
 void prtMat(int matrix[ROWS][COLS], int N, int M) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            cout << matrix[i][j] << " ";
+            cout << matrix[i][j];
+            if (j != M - 1) {
+                cout << " ";
+            }
         }
         cout << endl;
     }
 }
+
+
 
 int main(int argc, char* argv[])
 {
@@ -95,6 +100,11 @@ int main(int argc, char* argv[])
                 }
             }
 
+            if (M != M) {
+                cout << "NO" << endl;
+                continue;
+            }
+
             int result[ROWS][COLS];
             MulMat(A1, A2, result, N, M, K);
 
@@ -113,7 +123,7 @@ int main(int argc, char* argv[])
 
         else if (command == 3) {
             if (N != M) {
-                 cout << "NO" << endl;
+                cout << "NO" << endl;
                 continue;
             }
             int x;
