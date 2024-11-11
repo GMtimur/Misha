@@ -115,10 +115,6 @@ int main(int argc, char* argv[])
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < K; j++)
                     A1[i][j] = result[i][j];
-
-
-            if (isHuman) cout << "Ответ" << endl;
-            prtMat(result, N, K);
         }
 
         else if (command == 3) {
@@ -134,12 +130,10 @@ int main(int argc, char* argv[])
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < N; j++)
                     A1[i][j] = result[i][j];
-            cout << x << ":" << endl;
-            prtMat(A1, N, M);
         }
         else {
-            if (isHuman) cout << "ошибка " << endl;
-        }
+            if (isHuman){ cout << "ошибка " << endl;}
+            else{ cout << "NO" << endl; }
 
-        return 0;
+        }
     }}
