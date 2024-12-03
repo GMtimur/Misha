@@ -171,20 +171,21 @@ int main(int argc, char* argv[])
             if (array1[5 * i + j] < min)
                 min = array1[5 * i + j];
         }
-        if (isHuman)
-            cout << "минимум " << i + 1 << "-й пятерки равен " << min << endl;
+        if (isHuman) cout << "минимум " << i + 1 << "-й пятерки равен ";
+        cout << min << endl;
     }
 
 
-    if (isHuman) cout << "количество повторяющихся чисел: " << countDublikat(array1) << endl;
+    if (isHuman) cout << "количество повторяющихся чисел: "; 
+    cout << countDublikat(array1) << endl;
 
-    if (isHuman) cout << "номер элементы, начиная с которого степени 2: " << stepFirst2(array1) << endl;
+    if (isHuman) cout << "номер элементы, начиная с которого степени 2: ";
+    cout << stepFirst2(array1) << endl;
 
     redistributeArrays(array2, array1);
 
-    prtArr(array2, SIZE);
     prtArr(array1, SIZE);
-
+    prtArr(array2, SIZE);
 
     return 0;
 }
