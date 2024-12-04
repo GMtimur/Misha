@@ -53,6 +53,14 @@ void prtMat(int** matrix, int N, int M) {
     }
 }
 
+void inputMatrix(int** matrix, int N, int M) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+}
+
 int main(int argc, char* argv[]) {
     bool isHuman = false;
     if (argc <= 1 || strcmp(argv[1], "false") != 0) {
@@ -70,11 +78,7 @@ int main(int argc, char* argv[]) {
         A1[i] = new int[M];
 
     if (isHuman) cout << "введите элементы матрицы построчно:" << endl;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            cin >> A1[i][j];
-        }
-    }
+    inputMatrix(A1, N, M);
 
     int command;
 
@@ -98,11 +102,7 @@ int main(int argc, char* argv[]) {
                 A2[i] = new int[K];
 
             if (isHuman) cout << "введите элементы матрицы А2:" << endl;
-            for (int i = 0; i < M; i++) {
-                for (int j = 0; j < K; j++) {
-                    cin >> A2[i][j];
-                }
-            }
+            inputMatrix(A2, M, K);
 
             if (M != M) {
                 cout << "NO" << endl;
@@ -152,10 +152,10 @@ int main(int argc, char* argv[]) {
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < N; j++)
                     A1[i][j] = result[i][j];
-
-            for (int i = 0; i < N; i++)
+                for (int i = 0; i < N; i++)
                 delete[] result[i];
-            delete[] result;}
+            delete[] result;
+        }
         else {
             if (isHuman) { cout << "ошибка " << endl; }
             else { cout << "NO" << endl; }

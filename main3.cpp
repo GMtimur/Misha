@@ -41,11 +41,12 @@ void table(double arr[], double arg[], int n) {
     cout << "|_________________________|" << endl;
 }
 
-void zapArrays(double x1, double x2, double a, double b, double c, double array1[], double array2[], double xArray1[], double xArray2[]) {
+void zapArrays(double x1, double x2, double a, double b, double c, double array1[], double array2[], double xArray1[], double xArray2[], double sortedArray[]) {
     for (int i = 0; i < 15; i++) {
         double x = x1 + (x2 - x1) * (i / 14.0);
         array1[i] = Okrug(Foo(x, a, b, c), a, b, c);
         xArray1[i] = x;
+        sortedArray[i] = Okrug(Foo(x, a, b, c), a, b, c);
     }
 
     for (int i = 0; i < 15; i++) {
@@ -140,12 +141,24 @@ void redistributeArrays(double array1[], double array2[]) {
 
 }
 
+void bubble(double list[], int listLength)
+{
+    for (int i = 1; i < listLength; i++)
+    {
+        int j = i - 1;
+        while (j >= 0 && list[j] > list[j + 1])
+        {
+            swap(list[j], list[j + 1]);
+            j--;
+        }
+    }
+}
 int main(int argc, char* argv[])
 {
     bool isHuman = false;
     if (argc <= 1 || strcmp(argv[1], "false") != 0)
     {
-        isHuman = true;
+        isHuman = false;
     }
 
 
@@ -156,14 +169,28 @@ int main(int argc, char* argv[])
     if (isHuman)cout << "x1, x2, a, b, c: " << endl;
     cin >> x1 >> x2 >> a >> b >> c;
     const int SIZE = 15;
-    double array1[SIZE], array2[SIZE];
+    double array1[SIZE], array2[SIZE], sortedArray[SIZE];
     double xArray1[SIZE], xArray2[SIZE];
 
-    zapArrays(x1, x2, a, b, c, array1, array2, xArray1, xArray2);
+    zapArrays(x1, x2, a, b, c, array1, array2, xArray1, xArray2, sortedArray);
 
 
-    if (isHuman)  table(array1, xArray1, 1);
-    if (isHuman) table(array2, xArray2, 2);
+    if (isHuman) { table(array1, xArray1, 1); }
+    else {
+        for (int i = 0; i < 15; i++) {
+            cout << array1[i];
+            if (i != 14) cout << " ";
+        }
+        cout << endl;
+    }
+    if (isHuman) { table(array2, xArray2, 2); }
+    else{
+        for (int i = 0; i < 15; i++) {
+            cout << array2[i];
+            if (i != 14) cout << " ";
+        }
+        cout << endl;
+    }
     const int size = 15;
     for (int i = 0; i < (size / 5.0); i++) {
         double min = array1[5 * i];
@@ -174,9 +201,15 @@ int main(int argc, char* argv[])
         if (isHuman) cout << "минимум " << i + 1 << "-й пятерки равен ";
         cout << min << endl;
     }
+    bubble(sortedArray, 15);
+    if (isHuman) cout << "Сортированный массив: " << endl;
+    for (int i = 0; i < 15; i++) {
+        cout << sortedArray[i];
+        if (i != 14) cout << " ";
+    }
+    cout << endl;
 
-
-    if (isHuman) cout << "количество повторяющихся чисел: "; 
+    if (isHuman) cout << "количество повторяющихся чисел: ";
     cout << countDublikat(array1) << endl;
 
     if (isHuman) cout << "номер элементы, начиная с которого степени 2: ";
@@ -184,8 +217,8 @@ int main(int argc, char* argv[])
 
     redistributeArrays(array2, array1);
 
-    prtArr(array1, SIZE);
     prtArr(array2, SIZE);
+    prtArr(array1, SIZE);
 
     return 0;
 }
