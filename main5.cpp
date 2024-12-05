@@ -108,3 +108,60 @@ void print_group_info(STUDENT students[], int count) {
             unique_groups++;
         }
     }
+for (int i = 0; i < unique_groups - 1; i++) {
+        for (int j = i + 1; j < unique_groups; j++) {
+            if (bad_count[i] < bad_count[j]) {
+                swap(group_numbers[i], group_numbers[j]);
+                swap(group_count[i], group_count[j]);
+                swap(bad_count[i], bad_count[j]);
+            }
+        }
+    }
+
+    cout << "_______________________________________________________" << endl;
+    cout << "| Номер группы  | кол-во студентов | кол-во без двоек |" << endl;
+    cout << "|_______________|__________________|__________________|" << endl;
+
+    for (int i = 0; i < unique_groups; i++) {
+        cout << "| " << left << setw(14) << group_numbers[i]
+            << "| " << left << setw(17) << group_count[i]
+            << "| " << left << setw(17) << bad_count[i] << "|" << endl;
+    }
+
+    cout << "|_______________|__________________|__________________|" << endl;
+}
+
+int main(int argc, char* argv[])
+{
+    bool isHuman = false;
+    if (argc <= 1 || strcmp(argv[1], "false") != 0)
+    {
+        isHuman = true;
+    }
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    setlocale(LC_ALL, "ru");
+
+    STUDENT students[MAX_STUDENTS];
+    int N;
+
+    cin >> N;
+
+    for (int i = 0; i < N; i++) {
+        cin.ignore();
+        cin.getline(students[i].name, sizeof(students[i].name));
+        cin >> students[i].group_number;
+        for (int j = 0; j < GRADES_COUNT; j++) {
+            cin >> students[i].grades[j];
+        }
+    }
+
+    if (isHuman) print_student_info(students, N);
+
+    print_students_above_average(students, N);
+
+
+    print_group_info(students, N);
+
+    return 0;
+}
