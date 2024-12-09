@@ -59,7 +59,13 @@ void zapArrays(double x1, double x2, double a, double b, double c, double array1
 
 void prtArr(const double array[], int size) {
     for (int i = 0; i < size; i++) {
-        cout << fixed << setprecision(2) << array[i];
+        if (array[i] == static_cast<int>(array[i])) {
+            cout << static_cast<int>(array[i]);
+        }
+        else {
+            cout << fixed << setprecision(2) << array[i];
+        }
+
         if (i < size - 1) cout << " ";
     }
     cout << endl;
@@ -90,8 +96,6 @@ int countDublikat(const double array[]) {
     }
     return count;
 }
-
-
 int stepFirst2(const double array[]) {
     for (int i = 0; i < 15; ++i) {
         bool isPowerOfTwo = true;
@@ -141,6 +145,7 @@ void redistributeArrays(double array1[], double array2[]) {
 
 }
 
+
 void bubble(double list[], int listLength)
 {
     for (int i = 1; i < listLength; i++)
@@ -158,7 +163,7 @@ int main(int argc, char* argv[])
     bool isHuman = false;
     if (argc <= 1 || strcmp(argv[1], "false") != 0)
     {
-        isHuman = false;
+        isHuman = true;
     }
 
 
@@ -184,7 +189,7 @@ int main(int argc, char* argv[])
         cout << endl;
     }
     if (isHuman) { table(array2, xArray2, 2); }
-    else{
+    else {
         for (int i = 0; i < 15; i++) {
             cout << array2[i];
             if (i != 14) cout << " ";
