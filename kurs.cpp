@@ -7,24 +7,24 @@ using namespace std;
 //функция для создания матрицы
 int** newMat(int size)
 {
-    int** Mat = new int* [size];//выделяется динамическая память для массива с указателями
+    int** matrix = new int* [size];//выделяется динамическая память для массива с указателями
     for (int i = 0; i < size; i++)
     {
-        Mat[i] = new int[size];
+        matrix[i] = new int[size];
     }
-    return Mat;
+    return matrix;
 }
 //функция, которая удаляет матрицу, дабы освободить память 
-void delMat(int** Mat, int size)
+void delMat(int** matrix, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        delete[] Mat[i]; // удаляется динамический объект из памяти 
+        delete[] matrix[i]; // удаляется динамический объект из памяти 
     }
-    delete[] Mat;
+    delete[] matrix;
 }
 
-void vodMat(int** Mat, int size)//функция для ввода значений матрицы
+void vodMat(int** matrix, int size)//функция для ввода значений матрицы
 {
     cout << "введите элементы матрицы (" << size << "x" << size << "):" << endl;//данная строка предназначена для удобного ввода значений пользователю, которая означает, что матрица квадратная
     //количество строк равняется количеству столбцов
@@ -32,25 +32,26 @@ void vodMat(int** Mat, int size)//функция для ввода значен�
     {
         for (int j = 0; j < size; j++)
         {
-            cin >> Mat[i][j];
+            cin >> matrix[i][j];
         }
     }
 }
-void vvodMat(int** Mat, int size)//функция предназначена для вывода матрицы в консоль 
+
+void vvodMat(int** matrix, int size)//функция предназначена для вывода матрицы в консоль 
 {
     cout << "Матрица (" << size << "x" << size << "):" << endl;
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            cout << Mat[i][j] << " ";
+            cout << matrix[i][j] << " ";
         }
         cout << endl;
     }
 }
 
 //функция, которая предназначена для редактирования элементов в матрице
-void redMat(int** Mat, int size) {
+void redMat(int** matrix, int size) {
     int rows, cols, newNumber;
     cout << "введите номер строки (0-" << size - 1 << ") и номер столбца (0-" << size - 1 << ") для редактирования: ";
     cin >> rows >> cols;
@@ -58,7 +59,7 @@ void redMat(int** Mat, int size) {
     if (rows >= 0 && rows < size && cols >= 0 && cols < size) {
         cout << "введите новое значение: ";
         cin >> newNumber;
-        Mat[rows][cols] = newNumber;
+        matrix[rows][cols] = newNumber;
     }
     else {
         cout << "ошибка. местонахождение элемента не найдено." << endl;
@@ -97,37 +98,44 @@ void zapFileOfMate(const string& filename, int** matrix, int size) {
 }
 
 //функция для чтения матрицы из файла 
-void readMatOfFile(const string& filename, int** matrix, int& size) {
-    ifstream fin;
-    fin.open(filename);
+void readMatOfFile(const string& filename, int**& matrix, int& size) {
+    ifstream fin(filename);
 
-    if (!fin.is_open())
-    {
-        cout << "ошибка. файл не удалось прочитать" << endl;
+    if (!fin.is_open()) {
+        cout << "Ошибка: файл не удалось открыть" << endl;
+        return;
     }
-    else
-    {
-        cout << "файл успешно открыт" << endl;
+    else {
+        cout << "Файл успешно открыт" << endl;
 
         string line;
         if (getline(fin, line)) {
             size = stoi(line);
         }
+        else {
+            cout << "Ошибка: не удалось прочитать размер матрицы" << endl;
+            return;
+        }
 
-        for (int i = 0; i < size; i++)
-        {
-            if (getline(fin, line))
-            {
+        for (int i = 0; i < size; i++) {
+            if (getline(fin, line)) {
                 istringstream iss(line);
-                for (int j = 0; j < size; j++)
-                {
-                    iss >> matrix[i][j];
+                for (int j = 0; j < size; j++) {
+                    if (!(iss >> matrix[i][j])) {
+                        cout << "Ошибка: не удалось прочитать элемент матрицы на позиции ("
+                            << i << ", " << j << ")" << endl;
+                        matrix[i][j] = 0;
+                    }
                 }
+            }
+            else {
+                cout << "Ошибка: не удалось прочитать строку " << endl;
             }
         }
         fin.close();
     }
 }
+
 int main() {
     setlocale(LC_ALL, "Ru");
     int size;
@@ -150,10 +158,11 @@ int main() {
         cout << "Выберите пункт меню: ";
         cin >> choice;
 
-        switch (choice) {//при помощи конструкии switch case программа понимает, что следует вывести на экран, в зависимости от выбора условия, заданными пользователем
+        switch (choice) {//при помощи конструкции switch case программа понимает, что следует вывести на экран, в зависимости от выбора условия, заданными пользователем
         case 1:
             vodMat(A, size);
             vodMat(B, size);
+            vodMat(C, size);
             break;
         case 2:
             vvodMat(A, size);
@@ -169,6 +178,7 @@ int main() {
         case 4:
             readMatOfFile("matrixA.txt", A, size);
             readMatOfFile("matrixB.txt", B, size);
+            readMatOfFile("matrixC.txt", C, size);
             break;
         case 5:
             cout << "Редактирование матрицы A:" << endl;
