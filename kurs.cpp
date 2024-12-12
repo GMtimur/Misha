@@ -83,12 +83,15 @@ void sumMat(int** A, int** B, int** C, int size)
 void zapFileOfMate(const string& filename, int** matrix, int size) {
     ofstream outFile(filename);
     if (outFile.is_open()) {
-        outFile << size << endl;
-        for (int i = 0; i < size; ++i) {
-            for (int j = 0; j < size; ++j) {
-                outFile << matrix[i][j] << " ";
+        if (size > 0 && matrix != nullptr) {// условие на размерность матрицы 
+            outFile << size << endl;
+            for (int i = 0; i < size; ++i) 
+            {
+                for (int j = 0; j < size; ++j) {
+                    outFile << matrix[i][j] << " ";
+                }
+                outFile << endl;
             }
-            outFile << endl;
         }
         outFile.close();
     }
@@ -116,6 +119,7 @@ void readMatOfFile(const string& filename, int**& matrix, int& size) {
             cout << "Ошибка: не удалось прочитать размер матрицы" << endl;
             return;
         }
+
 
         for (int i = 0; i < size; i++) {
             if (getline(fin, line)) {
@@ -146,19 +150,19 @@ int main() {
     int** B = newMat(size);
     int** C = newMat(size);
 
-    int choice;
+    int command;
     do {
         cout << "0. выход\n";
-        cout << "1. ввести матрицу A и B\n";
+        cout << "1. ввести матрицу A,B и С\n";
         cout << "2. вывести матрицу A,B,C\n";
         cout << "3. записать матрицу в файл\n";
         cout << "4. прочитать матрицу из файла\n";
         cout << "5. редактировать элементы матрицы\n";
         cout << "6. суммировать матрицу A и B\n";
         cout << "Выберите пункт меню: ";
-        cin >> choice;
+        cin >> command;
 
-        switch (choice) {//при помощи конструкции switch case программа понимает, что следует вывести на экран, в зависимости от выбора условия, заданными пользователем
+        switch (command) {//при помощи конструкции switch case программа понимает, что следует вывести на экран, в зависимости от выбора условия, заданными пользователем
         case 1:
             vodMat(A, size);
             vodMat(B, size);
@@ -196,7 +200,7 @@ int main() {
             cout << "Некорректный выбор. Попробуйте снова." << endl;
         }
 
-    } while (choice != 0);
+    } while (command != 0);
 
     delMat(A, size);
     delMat(B, size);
