@@ -85,7 +85,7 @@ void zapFileOfMate(const string& filename, int** matrix, int size) {
     if (outFile.is_open()) {
         if (size > 0 && matrix != nullptr) {// условие на размерность матрицы 
             outFile << size << endl;
-            for (int i = 0; i < size; ++i) 
+            for (int i = 0; i < size; ++i)
             {
                 for (int j = 0; j < size; ++j) {
                     outFile << matrix[i][j] << " ";
@@ -121,6 +121,7 @@ void readMatOfFile(const string& filename, int**& matrix, int& size) {
         }
 
 
+        matrix = newMat(size);
         for (int i = 0; i < size; i++) {
             if (getline(fin, line)) {
                 istringstream iss(line);
@@ -180,6 +181,9 @@ int main() {
             break;
 
         case 4:
+            delMat(A, size);
+            delMat(B, size);
+            delMat(C, size);
             readMatOfFile("matrixA.txt", A, size);
             readMatOfFile("matrixB.txt", B, size);
             readMatOfFile("matrixC.txt", C, size);
