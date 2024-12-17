@@ -56,11 +56,16 @@ void zapArrays(double x1, double x2, double a, double b, double c, double array1
     }
 }
 
-
 void prtArr(const double array[], int size) {
     for (int i = 0; i < size; i++) {
-        if (array[i] == static_cast<int>(array[i])) {
-            cout << static_cast<int>(array[i]);
+        double intPart;
+        double fracPart = modf(array[i], &intPart); 
+
+        if (fracPart == 0.0) {
+            cout << static_cast<int>(intPart);
+        }
+        else if (round(array[i]*100.0)/10.0 == round(array[i] * 10.0)){
+            cout << fixed << setprecision(1) << array[i];
         }
         else {
             cout << fixed << setprecision(2) << array[i];
@@ -70,6 +75,7 @@ void prtArr(const double array[], int size) {
     }
     cout << endl;
 }
+
 
 void prtMin5(const double array[]) {
     for (int i = 0; i < 3; ++i) {
