@@ -96,6 +96,120 @@ void inf_srBall(STUDENT students[], int count, int S, bool isHuman) {
         cout << "|______________________|" << endl;
 
 
+        for (int i = 0; i < count; i++) {
+            float avg = sr_ball(students[i].grades);
+            if (avg > 4.0) {
+                cout << "| " << setw(14) << students[i].group_number << "| " << setw(S - 1) << students[i].name << " | ";
+                if (round(avg * 10.0) / 10.0 == round(avg)) {
+                    cout << round(avg * 10.0) / 10.0;
+                    cout << "                    |" << endl;
+                }
+                else {
+                    cout << fixed << setprecision(1) << avg;
+                    cout << "                  |" << endl;
+                }
+                found = true;
+            }
+        }
+        cout << "|_______________|";
+        print(S, "_");
+        cout << "|______________________|" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < count; i++)
+        {
+            float avg = sr_ball(students[i].grades);
+            if (avg <= 4)
+                break;
+            cout << students[i].group_number << ", " << students[i].name << " - ";
+            if (avg == 5)
+                cout << setprecision(0) << avg << endl;
+            else
+                cout << setprecision(2) << avg << endl;
+        }
+    }
+}
+void print_group_info(STUDENT students[], int count, bool isHuman) {
+    int group_count[MAX_STUDENTS] = { 0 };
+    int bad_count[MAX_STUDENTS] = { 0 };
+    int group_numbers[MAX_STUDENTS];
+
+    int unique_groups = 0;
+
+
+    for (int i = 0; i < count; i++) {
+        bool found = false;
+        for (int j = 0; j < unique_groups; j++) {
+            if (group_numbers[j] == students[i].group_number) {
+                group_count[j]++;
+                if (students[i].grades[0] == 2 || students[i].grades[1] == 2 ||
+                    students[i].grades[2] == 2 || students[i].grades[3] == 2 ||
+                    students[i].grades[4] == 2) {
+                    bad_count[j]++;
+                }
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            group_numbers[unique_groups] = students[i].group_number;
+            group_count[unique_groups] = 1;
+            bad_count[unique_groups] = (students[i].grades[0] == 2 || students[i].grades[1] == 2 ||
+                students[i].grades[2] == 2 || students[i].grades[3] == 2 ||
+                students[i].grades[4] == 2) ? 1 : 0;
+            unique_groups++;
+        }
+    }
+    for (int i = 0; i < unique_groups - 1; i++) {
+        for (int j = i + 1; j < unique_groups; j++) {
+            if (bad_count[i] < bad_count[j]) {
+                swap(group_numbers[i], group_numbers[j]);
+                swap(group_count[i], group_count[j]);
+                swap(bad_count[i], bad_count[j]);
+            }
+        }
+    }
+    if (isHuman) {
+        cout << "_______________________________________________________" << endl;
+        cout << "| Номер группы  | кол-во студентов | кол-во без двоек |" << endl;
+        cout << "|_______________|__________________|__________________|" << endl;
+
+        for (int i = 0; i < unique_groups; i++) {
+            cout << "| " << left << setw(14) << group_numbers[i]
+                << "| " << left << setw(17) << group_count[i]
+                << "| " << left << setw(17) << bad_count[i] << "|" << endl;
+        }
+
+        cout << "|_______________|__________________|__________________|" << endl;
+    }
+    else {
+        for (int i = 0; i < unique_groups; i++) {
+            cout << group_numbers[i] << " - " << group_count[i] << " - " << bad_count[i] << endl;
+        }
+    }
+}
+
+int main(int argc, char* argv[])
+{
+    bool isHuman = false;
+    if (argc <= 1 || strcmp(argv[1], "false") != 0)
+    {
+        isHuman = true;
+    }
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    setlocale(LC_ALL, "ru");
+
+    STUDENT students[MAX_STUDENTS];
+    int N{};
+    int S{};
+    if (isHuman) {
+        cout << "Укажите количество студентов: ";
+    }
+    cin >> N;
+
+
     for (int i = 0; i < N; i++) {
         cin.ignore();
         if (isHuman) cout << "Введите ФИО студента " << (i + 1) << ": ";
