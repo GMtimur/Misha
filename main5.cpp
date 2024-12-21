@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <windows.h>
+
 using namespace std;
 
 const int MAX_STUDENTS = 100;
@@ -18,7 +19,26 @@ void print(double size, string ch)
         cout << ch;
 }
 
+
+void bubbleSort(STUDENT students[], int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (students[j].group_number > students[j + 1].group_number) {
+                STUDENT temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+}
+bool compareByGroup(const STUDENT& a, const STUDENT& b) {
+    return a.group_number < b.group_number;
+}
+
+
 void inf_student(STUDENT students[], int count, int S, bool isHuman) {
+    bubbleSort(students, count);
+
     if (isHuman) {
         S++;
         cout << "______________________";
@@ -32,7 +52,7 @@ void inf_student(STUDENT students[], int count, int S, bool isHuman) {
         cout << "|__________________________|" << endl;
 
         for (int i = 0; i < count; i++) {
-            cout << "| " <<left << setw(19) << students[i].group_number << "| " << left << setw(S) << students[i].name << setw(3) << "| ";
+            cout << "| " << left << setw(19) << students[i].group_number << "| " << left << setw(S) << students[i].name << setw(3) << "| ";
             for (int j = 0; j < GRADES_COUNT; j++) {
                 cout << students[i].grades[j];
                 if (j < GRADES_COUNT - 1) cout << ",";
@@ -44,10 +64,8 @@ void inf_student(STUDENT students[], int count, int S, bool isHuman) {
             cout << "|__________________________|" << endl;
         }
     }
-    else
-    {
-        for (int i = 0; i < count; i++)
-        {
+    else {
+        for (int i = 0; i < count; i++) {
             cout << students[i].group_number << " - " << students[i].name << ":";
             for (int j = 0; j < GRADES_COUNT; j++) {
                 cout << " " << students[i].grades[j];
@@ -57,7 +75,6 @@ void inf_student(STUDENT students[], int count, int S, bool isHuman) {
         }
     }
 }
-
 
 float sr_ball(int grades[]) {
     float sum = 0;
