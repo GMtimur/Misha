@@ -108,26 +108,43 @@ void sort_bubble(STUDENT students[], int count) {
     }
 }
 
+
 void inf_srBall(STUDENT students[], int count, int S, bool isHuman) {
     sort_bubble(students, count);
     bool found = false;
-    if (isHuman)
-    {
-        S++;
-        cout << "________________";
-        print(S, "_");
-        cout << "_______________________" << endl;
-        cout << "| Номер группы |";
-        print((S - 3) / 2, " ");
-        cout << "ФИО";
-        if ((S - 3) % 2 == 1)
+    int count_sr_ball = 0;
+    for (int i = 0; i < count; i++) {
+        float avg = sr_ball(students[i].grades);
+        if (avg > 4.0) {
+            count_sr_ball++;
+        }
+    }
+    if (count_sr_ball == 0) {
+        if (isHuman) {
+            cout << "Отсутствуют." << endl;
+        }
+        else {
+            cout << "NO" << endl;
+        }
+    }
+    else {
+        if (isHuman)
+        {
+            S++;
+            cout << "________________";
+            print(S, "_");
+            cout << "_______________________" << endl;
+            cout << "| Номер группы |";
             print((S - 3) / 2, " ");
-        else
-            print((S - 3) / 2 + 1, " ");
-        cout << "|    Средний балл     | " << endl;
-        cout << "|______________|";
-        print(S, "_");
-        cout << "|_____________________|" << endl;
+            cout << "ФИО";
+            if ((S - 3) % 2 == 1)
+                print((S - 3) / 2, " ");
+            else
+                print((S - 3) / 2 + 1, " ");
+            cout << "|    Средний балл     | " << endl;
+            cout << "|______________|";
+            print(S, "_");
+            cout << "|_____________________|" << endl;
 
 
             for (int i = 0; i < count; i++) {
@@ -157,22 +174,23 @@ void inf_srBall(STUDENT students[], int count, int S, bool isHuman) {
                     found = true;
                 }
             }
-        cout << "|______________|";
-        print(S, "_");
-        cout << "|_____________________|" << endl;
-    }
-    else
-    {
-        for (int i = 0; i < count; i++)
+            cout << "|______________|";
+            print(S, "_");
+            cout << "|_____________________|" << endl;
+        }
+        else
         {
-            float avg = sr_ball(students[i].grades);
-            if (avg <= 4)
-                break;
-            cout << students[i].group_number << ", " << students[i].name << " - ";
-            if (avg == 5)
-                cout << setprecision(0) << avg << endl;
-            else
-                cout << setprecision(2) << avg << endl;
+            for (int i = 0; i < count; i++)
+            {
+                float avg = sr_ball(students[i].grades);
+                if (avg <= 4)
+                    break;
+                cout << students[i].group_number << ", " << students[i].name << " - ";
+                if (avg == 5)
+                    cout << setprecision(0) << avg << endl;
+                else
+                    cout << setprecision(2) << avg << endl;
+            }
         }
     }
 }
@@ -184,34 +202,34 @@ void print_group_info(STUDENT students[], int count, bool isHuman) {
     int unique_groups = 0;
 
 
-    for (int i = 0; i < count; i++) {
-        bool found = false;
-        for (int j = 0; j < unique_groups; j++) {
-            if (group_numbers[j] == students[i].group_number) {
-                group_count[j]++;
-                for (int k = 0; k < GRADES_COUNT; k++) {
-                    if (students[i].grades[k] == 2) {
-                        bad_count[j]++;
-                        break;
+        for (int i = 0; i < count; i++) {
+            bool found = false;
+            for (int j = 0; j < unique_groups; j++) {
+                if (group_numbers[j] == students[i].group_number) {
+                    group_count[j]++;
+                    for (int k = 0; k < GRADES_COUNT; k++) {
+                        if (students[i].grades[k] == 2) {
+                            bad_count[j]++;
+                            break;
+                        }
                     }
-                }
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            group_numbers[unique_groups] = students[i].group_number;
-            group_count[unique_groups] = 1;
-            bad_count[unique_groups] = 0;
-            for (int k = 0; k < GRADES_COUNT; k++) {
-                if (students[i].grades[k] == 2) {
-                    bad_count[unique_groups] = 1;
+                    found = true;
                     break;
                 }
             }
-            unique_groups++;
+            if (!found) {
+                group_numbers[unique_groups] = students[i].group_number;
+                group_count[unique_groups] = 1;
+                bad_count[unique_groups] = 0;
+                for (int k = 0; k < GRADES_COUNT; k++) {
+                    if (students[i].grades[k] == 2) {
+                        bad_count[unique_groups] = 1;
+                        break;
+                    }
+                }
+                unique_groups++;
+            }
         }
-    }
 
     for (int i = 0; i < unique_groups - 1; i++) {
         for (int j = i + 1; j < unique_groups; j++) {
@@ -235,7 +253,6 @@ void print_group_info(STUDENT students[], int count, bool isHuman) {
             cout << "|         " << left << setw(9) << group_count[i]
                 << "|         " << left << setw(9) << bad_count[i] << "|" << endl;
         }
-
 
         cout << "|______________|__________________|__________________|" << endl;
     }
