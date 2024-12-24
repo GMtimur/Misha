@@ -13,6 +13,12 @@ struct STUDENT {
     int grades[GRADES_COUNT];
 };
 
+struct GroupInfo {
+    int group_number;
+    int student_count;
+    int bad_count;
+};
+
 void print(double size, string ch)
 {
     for (int i = 0; i <= size; i++)
@@ -195,51 +201,47 @@ void inf_srBall(STUDENT students[], int count, int S, bool isHuman) {
     }
 }
 void print_group_info(STUDENT students[], int count, bool isHuman) {
-    int group_count[MAX_STUDENTS] = { 0 };
-    int bad_count[MAX_STUDENTS] = { 0 };
-    int group_numbers[MAX_STUDENTS];
-
+    GroupInfo groups[MAX_STUDENTS] = { {0, 0, 0} };
     int unique_groups = 0;
 
-
-        for (int i = 0; i < count; i++) {
-            bool found = false;
-            for (int j = 0; j < unique_groups; j++) {
-                if (group_numbers[j] == students[i].group_number) {
-                    group_count[j]++;
-                    for (int k = 0; k < GRADES_COUNT; k++) {
-                        if (students[i].grades[k] == 2) {
-                            bad_count[j]++;
-                            break;
-                        }
-                    }
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                group_numbers[unique_groups] = students[i].group_number;
-                group_count[unique_groups] = 1;
-                bad_count[unique_groups] = 0;
+    for (int i = 0; i < count; i++) {
+        bool found = false;
+        for (int j = 0; j < unique_groups; j++) {
+            if (groups[j].group_number == students[i].group_number) {
+                groups[j].student_count++;
                 for (int k = 0; k < GRADES_COUNT; k++) {
                     if (students[i].grades[k] == 2) {
-                        bad_count[unique_groups] = 1;
+                        groups[j].bad_count++; 
                         break;
                     }
                 }
-                unique_groups++;
+                found = true;
+                break;
             }
         }
+        if (!found) {
+            groups[unique_groups].group_number = students[i].group_number;
+            groups[unique_groups].student_count = 1;
+            groups[unique_groups].bad_count = 0;
+            for (int k = 0; k < GRADES_COUNT; k++) {
+                if (students[i].grades[k] == 2) {
+                    groups[unique_groups].bad_count = 1;
+                    break;
+                }
+            }
+            unique_groups++;
+        }
+    }
+
 
     for (int i = 0; i < unique_groups - 1; i++) {
         for (int j = i + 1; j < unique_groups; j++) {
-            if (bad_count[i] < bad_count[j]) {
-                swap(group_numbers[i], group_numbers[j]);
-                swap(group_count[i], group_count[j]);
-                swap(bad_count[i], bad_count[j]);
+            if (groups[i].bad_count < groups[j].bad_count) {
+                swap(groups[i], groups[j]);
             }
         }
     }
+
     if (isHuman) {
         cout << "______________________________________________________" << endl;
         cout << "| Номер группы | Кол-во студентов | Кол-во без двоек |" << endl;
@@ -248,20 +250,21 @@ void print_group_info(STUDENT students[], int count, bool isHuman) {
         for (int i = 0; i < unique_groups; i++) {
             cout << "|";
             print(4, " ");
-            cout << group_numbers[i];
+            cout << groups[i].group_number; 
             print(4, " ");
-            cout << "|         " << left << setw(9) << group_count[i]
-                << "|         " << left << setw(9) << bad_count[i] << "|" << endl;
+            cout << "|         " << left << setw(9) << groups[i].student_count
+                << "|         " << left << setw(9) << groups[i].bad_count << "|" << endl;
         }
 
         cout << "|______________|__________________|__________________|" << endl;
     }
     else {
         for (int i = 0; i < unique_groups; i++) {
-            cout << group_numbers[i] << " - " << group_count[i] << " - " << bad_count[i] << endl;
+            cout << groups[i].group_number << " - " << groups[i].student_count << " - " << groups[i].bad_count << endl;
         }
     }
 }
+
 
 int main(int argc, char* argv[]) {
     bool isHuman = false;
